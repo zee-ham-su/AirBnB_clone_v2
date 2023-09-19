@@ -7,6 +7,7 @@ from models.base_model import BaseModel, Base
 from models.state import State
 from models.city import City
 from models.user import User
+from models.place import Place
 
 
 class DBStorage:
@@ -37,7 +38,7 @@ class DBStorage:
                 key = "{}.{}".format(type(obj).__name__, obj.id)
                 objs[key] = obj
         else:
-            class_list = [State, City, User]
+            class_list = [State, City, User, Place]
             objs = {}  # Dictionary to store queried objects
 
             for cls in class_list:
