@@ -117,8 +117,7 @@ class HBNBCommand(cmd.Cmd):
         """ Create an object of any class"""
         try:
             if not args:
-                raise SyntaxError("Usage: create <Class name> <param1>=<value1> <param2>=<value2> ...")
-
+                raise SyntaxError()
             arg_list = args.split(" ")
             class_name = arg_list[0]
             param_dict = {}
