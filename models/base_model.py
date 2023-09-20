@@ -15,7 +15,7 @@ class BaseModel:
     """
     This class defines common attributes and methods for other classes.
     Attributes:
-        id (str): Unique identifier for the object.
+        id (str): Is the unique identifier for the object.
         created_at (datetime): Date and time when the object was created.
         updated_at (datetime): Date and time when the object was last updated.
     """
@@ -26,7 +26,7 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """
-        Initializes a new instance of the BaseModel.
+        Initializing a new instance of the BaseModel.
         Args:
             args: Not used.
             kwargs (dict): Keyword arguments for object attributes.
@@ -67,7 +67,7 @@ class BaseModel:
 
     def save(self):
         """
-        Updates the 'updated_at' attribute and saves
+        Updating the 'updated_at' attribute and saves
         the object to the data store.
         """
         self.updated_at = datetime.now()
@@ -76,7 +76,7 @@ class BaseModel:
 
     def to_dict(self):
         """
-        Converts the object to a dictionary.
+        Converting the object to a dictionary.
         Returns:
             dict: A dictionary representation of the object.
         """
