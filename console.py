@@ -101,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
         print("Exits the program with formatting\n")
 
     def do_EOF(self, arg):
-        """ Handles EOF to exit program """
+        """ Handling EOF to exit program """
         print()
         exit()
 
@@ -114,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        """ Creating an object of any class"""
         try:
             arg_list = args.split(" ")
             class_name = arg_list[0]
@@ -182,7 +182,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: show <className> <objectId>\n")
 
     def do_destroy(self, args):
-        """ Destroys a specified object """
+        """ Destroying a specified object """
         new = args.partition(" ")
         c_name = new[0]
         c_id = new[2]
@@ -250,7 +250,7 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: count <class_name>")
 
     def do_update(self, args):
-        """ Updates a certain object with new info """
+        """ Updating a certain object with new info """
         c_name = c_id = att_name = att_val = kwargs = ''
 
         # isolate cls from id/args, ex: (<cls>, delim, <id/args>)
