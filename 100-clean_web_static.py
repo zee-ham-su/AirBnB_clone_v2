@@ -14,7 +14,15 @@ env.key_filename = '~/.ssh/id_rsa'
 
 
 def do_clean(number=0):
-    """Delete out-of-date archives"""
+    """Delete out-of-date archives
+    Parameters:
+        number (int): The number of recent archives
+        to retain. Set to 0 or 1 to keep
+        only the latest archive, or increase
+        for more recent archives.
+    Returns:
+        None
+    """
     number = int(number)
 
     if number < 0:
