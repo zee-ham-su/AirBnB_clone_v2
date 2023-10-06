@@ -6,50 +6,43 @@ from datetime import datetime
 from pathlib import Path
 
 env.user = 'ubuntu'
-env.hosts = ['54.237.78.97', '54.90.37.186']
+env.hosts = ['54.237.78.97', '54.90.50.227']
 env.key_filename = '~/.ssh/id_rsa'
 
 
+def do_pack():
+    """"Generate a .tgz archive from web_static folder"""
+
+    local("mkdir -p versions")
+    date = datetime.now().strftime("%Y%m%d%H%M%S")
+    archived_f_path = "versions/web_static_{}.tgz".format(date)
+    t_gzip_archive = local("tar -cvzf {} web_static".format(archived_f_path))
+
+    if t_gzip_archive.succeeded:
+        return (archived_f_path)
+    else:
+        return (None)
+
+
 def do_deploy(archive_path):
-    """Deploy the archive files to erb server"""
-    try:
-        if not (os.path.exists(archive_path)):
-            return False
+    """Deploy the archive files to erb server
+    """
+    if os.path.exists(archive_path):
+        archived_file = archive_path[9:]
+        new_ver = "/data/web_static/releases/" + archived_file[:-4]
+        archived_file = "/tmp/" + archived_file
+        put(archive_path, "/tmp/")
+        run("sudo mkdir -p {}".format(new_ver))
+        run("sudo tar -xzf {} -C {}/".format(archived_file,
+                                             new_ver))
+        run("sudo rm {}".format(archived_file))
+        run("sudo rsync -av --remove-source-files {}/web_static/* {}"
+            .format(new_ver, new_ver))
+        run("sudo rm -rf {}/web_static".format(new_ver))
+        run("sudo rm -rf /data/web_static/current")
+        run("sudo ln -s {} /data/web_static/current".format(new_ver))
 
-        # Upload the archive to /tmp/ directory on the server
-        put(archive_path, '/tmp/')
+        print("New version deployed!")
+        return (True)
 
-        #  Extract the archive to /data/web_static/releases/
-        timestamp = os.path.basename(archive_path)[-18:-4]
-        run('sudo mkdir -p /data/web_static/\
-        releases/web_static_{}/'.format(timestamp))
-
-        # uncompress archive and delete .tgz
-        run('sudo tar -xzf /tmp/web_static_{}.tgz -C \
-        /data/web_static/releases/web_static_{}/'
-            .format(timestamp, timestamp))
-
-        # remove archive
-        run('sudo rm /tmp/web_static_{}.tgz'.format(timestamp))
-
-        # move contents into host web_static
-        run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
-        /data/web_static/releases/web_static_{}/'.format(timestamp, timestamp))
-
-        # remove extraneous web_static dir
-        run('sudo rm -rf /data/web_static/releases/\
-        web_static_{}/web_static'
-            .format(timestamp))
-
-        # delete pre-existing sym link
-        run('sudo rm -rf /data/web_static/current')
-
-        # re-establish symbolic link
-        run('sudo ln -s /data/web_static/releases/\
-        web_static_{}/ /data/web_static/current'.format(timestamp))
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return False
-
-    # return True on success
-    return True
+    return (False)
