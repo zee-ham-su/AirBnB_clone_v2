@@ -30,8 +30,11 @@ def do_clean(number=0):
 
     number = max(1, number)
 
-    local('cd versions ; ls -t | tail -n +{} | xargs rm -rf'.format(
-         number))
-    path = '/data/web_static/releases'
-    run('cd {} ; ls -t | tail -n +{} | xargs rm -rf'.format(
-        path, number))
+    archives_to_keep = sorted(run("ls -x /data/web_static/releases").split())
+    archives_to_delete = archives_to_keep[:-number]
+    for archive in archives_to_delete:
+        run("rm -rf /data/web_static/releases/{}".format(archive))
+    versions_path = local("ls -x versions", capture=True).split()
+    versions_to_del = versions_path[:-number]
+    for version in versions_to_del:
+        local("rm -f versions/{}".format(version))
