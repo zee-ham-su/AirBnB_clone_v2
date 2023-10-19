@@ -48,7 +48,7 @@ class DBStorage:
                     key = "{}.{}".format(type(obj).__name__, obj.id)
                     objs[key] = obj
 
-            return objs  # Return the dictionary containing the queried objects
+        return objs
 
     def new(self, obj):
         """Add the object to the current database session"""
