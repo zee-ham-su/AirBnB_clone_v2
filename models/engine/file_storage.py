@@ -13,7 +13,8 @@ class FileStorage:
         """Returns a dictionary of models currently in
         storage, filtered by class"""
         if cls:
-            return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
+            return {key: obj for key, obj in FileStorage.__objects.items()
+                    if isinstance(obj, cls)}
         else:
             return FileStorage.__objects
 
