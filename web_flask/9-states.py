@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """a script that starts a Flask web application"""
 from flask import Flask, render_template
-from models.state import State
 from models import storage
+from models.state import State
 app = Flask(__name__)
 
 
@@ -24,7 +24,7 @@ def id_states(id):
     """ show an HTML page with citie of a specific state"""
     for state in storage.all(State).values():
         if state.id == id:
-            return render_template('9-states.html', states=state)
+            return render_template('9-states.html', state=state)
         return render_template('9-states.html')
 
 
