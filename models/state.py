@@ -16,7 +16,7 @@ class State(BaseModel, Base):
 
     # Define the relationship between State and City
     cities = relationship("City", cascade='all, delete, delete-orphan',
-                                backref="state")
+                          backref="state")
 
     @property
     def cities(self):
